@@ -2,6 +2,7 @@ package ufc.quixada.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,7 +16,7 @@ public class ConvidadosController {
 	@Autowired
 	ConvidadoRepository convidadoRepository;
 
-	@RequestMapping("/convidados")
+	@RequestMapping("/")
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("ListaConvidados");
 		mv.addObject("convidados", convidadoRepository.findAll());
@@ -25,7 +26,13 @@ public class ConvidadosController {
 	
 	@RequestMapping(value="/cadastrar", method = RequestMethod.POST)
 	public String cadastrar(Convidado convidado) {
-		this.convidadoRepository.save(convidado);
-		return "redirect:/convidados";
+		convidadoRepository.save(convidado);
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value="/deletar/{id}")
+	public String excluir(@PathVariable("id") Integer idConvidado) {
+		convidadoRepository.delete(idConvidado);
+		return "redirect:/";
 	}
 }
