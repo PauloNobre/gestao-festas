@@ -18,14 +18,14 @@ public class ConvidadosController {
 	@RequestMapping("/convidados")
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("ListaConvidados");
-		mv.addObject("convidados", convidadoRepository.todos());
+		mv.addObject("convidados", convidadoRepository.findAll());
 		mv.addObject(new Convidado());
 		return mv;
 	}
 	
 	@RequestMapping(value="/cadastrar", method = RequestMethod.POST)
 	public String cadastrar(Convidado convidado) {
-		this.convidadoRepository.adicionar(convidado);
+		this.convidadoRepository.save(convidado);
 		return "redirect:/convidados";
 	}
 }
